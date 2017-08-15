@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class GatekeeperApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GatekeeperApplication.class);
+		SpringApplication.run(GatekeeperApplication.class, args);
 	}
 
 	@Bean
