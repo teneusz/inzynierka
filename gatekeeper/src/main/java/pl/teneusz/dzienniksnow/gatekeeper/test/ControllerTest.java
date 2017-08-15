@@ -20,14 +20,14 @@ import java.net.URI;
 public class ControllerTest {
     @Autowired
     RestTemplate restTemplate;
-    @Autowired
-    LoadBalancerClient loadBalancer;
+//    @Autowired
+//    LoadBalancerClient loadBalancer;
 
     @RequestMapping(method = RequestMethod.GET,path = "/test")
-    public User[] test(){
-        ServiceInstance instance = loadBalancer.choose("user-service");
-        URI uri = instance.getUri();
-        return restTemplate.getForObject("http://user-service/user",User[].class);
+    public String test(){
+//        ServiceInstance instance = loadBalancer.choose("user-service");
+//        URI uri = instance.getUri();
+        return restTemplate.getForObject("http://user-service/user",String.class);
     }
 
     public User[] testDefault()
