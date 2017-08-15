@@ -27,7 +27,9 @@ public class ControllerTest {
     public String test(){
 //        ServiceInstance instance = loadBalancer.choose("user-service");
 //        URI uri = instance.getUri();
-        return restTemplate.getForObject("http://user-service/user",String.class);
+        String result = restTemplate.getForObject("http://user-service/user",String.class);
+        System.out.println(result);
+        return result;
     }
 
     public User[] testDefault()
