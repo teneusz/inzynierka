@@ -19,10 +19,11 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "client")
+@SequenceGenerator(name = "clientSeq", sequenceName = "client_seq")
 public class UserEntity implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "clientSeq")
     @Column(name = "client_id")
     private Long id;
 

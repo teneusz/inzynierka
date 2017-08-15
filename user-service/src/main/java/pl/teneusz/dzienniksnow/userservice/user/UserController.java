@@ -1,5 +1,7 @@
 package pl.teneusz.dzienniksnow.userservice.user;
 
+import com.google.common.collect.Lists;
+import com.netflix.discovery.EurekaClient;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ class UserController {
     private final UserRepository repository;
 
     @Autowired
+    EurekaClient discoveryClient;
+
+    @Autowired
     UserController(UserRepository repository) {
         this.repository = repository;
     }
@@ -25,24 +30,25 @@ class UserController {
     @GetMapping(path = {"", "/"})
     public List<UserEntity> getAll(@RequestParam(value = "startDate", required = false) Date startDate, @RequestParam(value = "endDate", required = false) Date endDate, @RequestParam(name = "gender", required = false) String gender) {
 
-        List<UserEntity> result;
+        List<UserEntity> result = Lists.newArrayList();
         boolean startDateNotNull = startDate != null;
         boolean endDateNotNull = endDate != null;
         boolean genderIsNotEmpty = StringUtils.isNotEmpty(gender);
+
         if (startDateNotNull && endDateNotNull && genderIsNotEmpty) {
             result = repository.findUserEntitiesByBirthDateBetweenAndGender(startDate, endDate, UserEntity.Gender.valueOfEnum(gender));
         } else if (startDateNotNull && endDateNotNull) {
             result = repository.findUserEntitiesByBirthDateBetween(startDate, endDate);
         } else if (startDateNotNull && genderIsNotEmpty) {
-            result = repository.findUserEntitiesByBirthDateAfterAndGender(startDate, UserEntity.Gender.valueOfEnum(gender));
+           // result = repository.findUserEntitiesByBirthDateAfterAndGender(startDate, UserEntity.Gender.valueOfEnum(gender));
         } else if (startDateNotNull) {
-            result = repository.findUserEntitiesByBirthDateAfter(startDate);
+          //  result = repository.findUserEntitiesByBirthDateAfter(startDate);
         } else if (!endDateNotNull && !genderIsNotEmpty) {
             result = repository.findAll();
         } else if (endDateNotNull && genderIsNotEmpty) {
-            result = repository.findUserEntitiesByBirthDateBeforeAndGender(endDate, UserEntity.Gender.valueOfEnum(gender));
+          //  result = repository.findUserEntitiesByBirthDateBeforeAndGender(endDate, UserEntity.Gender.valueOfEnum(gender));
         } else if (endDateNotNull) {
-            result = repository.findUserEntitiesByBirthDateBefore(endDate);
+          //  result = repository.findUserEntitiesByBirthDateBefore(endDate);
         } else {
             result = repository.findUserEntitiesByGender(UserEntity.Gender.valueOfEnum(gender));
         }
